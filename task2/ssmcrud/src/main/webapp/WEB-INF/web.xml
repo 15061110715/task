@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:web="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+  <!-- spring的配置文件-->
+  <context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>classpath:spring/applicationContext.xml</param-value>
+    <!--配置application.xml的位置,否则会在webapp下面找-->
+</context-param>
+
+  <listener>
+    <listener-class>
+      org.springframework.web.util.Log4jConfigListener
+    </listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <!--再启动web容器的时候自动装载applicationContext的内容-->
+
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+<!--过滤器，用来控制中文字符编码-->
+  <!-- spring mvc核心：分发servlet -->
+  <servlet>
+    <servlet-name>mvc-dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!--分配给dispatcher来控制-->
+    <!-- spring mvc的配置文件 -->
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:spring/springMVC.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mvc-dispatcher</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+<!--拦截类型，现在是拦截所有都给dispatcher-->
+  <welcome-file-list>
+    <welcome-file>/WEB-INF/jsp/login.jsp</welcome-file>
+  </welcome-file-list>
+  <!--默认的首界面，前面必须有 /  -->
+</web-app>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ptteng.dao.StudentMapper">
+
+    <insert id="add" parameterType="Student">
+        insert into student(name,qq,type,time,graduate,number,dailyreport,promise,teacher,where_)
+        values(#{name},#{qq},#{type},#{time},#{graduate},#{number},#{dailyreport},#{promise},#{teacher},#{where_})
+    </insert>
+    <!--parametertype是什么？resulttype是什么-->
+    <delete id="delete" parameterType="Student">
+        delete from student where id =#{id}
+    </delete>
+
+    <select id="get" parameterType="_int" resultType="Student">
+        select *from student where id=#{id}
+    </select>
+
+    <update id="update" parameterType="Student">
+        update Student set name =#{name},qq =#{qq},type =#{type},time =#{time},graduate=#{graduate},number=#{number},dailyreport=#{dailyreport},promise=#{promise},teacher=#{teacher},where_=#{where_} where id=#{id}
+    </update>
+
+    <select id="list" resultType="Student">
+        select *from student order by id
+        <if test="start!=null and count!=null">
+            limit #{start},#{count}
+        </if>
+    </select>
+
+    <select id="total" resultType="int">
+        select count(*) from student
+    </select>
+
+    <select id="Login" resultType="com.ptteng.pojo.Category">
+        select * from tb_user where username=#{username} and password=#{password}
+    </select>
+    <!--<select id="selectByName" parameterType="string" resultType="Category">-->
+    <!--select * from category_ where username = #{username}-->
+    <!--</select>-->
+    <!--<select id="selectById" parameterType="int" resultType="Category">-->
+    <!--select * from category_ where id = #{id}-->
+    <!--</select>-->
+</mapper>
